@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSE AFF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/genai": "https://esm.sh/@google/genai@^1.4.0"
+        }
+      }
+    </script>
+    <script type="module" src="index.tsx"></script>
+</head>
+<body>
+    <div class="lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>POSE AFF</h1>
+            <p>All-In-One Pose & Image Editing Tools</p>
+            <button id="show-api-key-modal-button" class="premium-key-button">
+                PAID API KEY
+                <span id="api-key-status-indicator"></span>
+            </button>
+        </header>
+
+        <main class="main-content">
+            <div id="pose-mirror-selfie-card">
+                <div class="card-container" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-perspective="1500" data-tilt-glare data-tilt-max-glare="0.1" data-tilt-scale="1.02" data-tilt-reset="true">
+                    <div class="content-container" style="gap: 1.5rem;">
+                        <div class="card-header-container">
+                            <h2>Pose Mirror Selfie</h2>
+                            <div class="toggle-switch-container">
+                                <label class="toggle-label" for="pose-mirror-selfie-auto-download">Auto Download</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="pose-mirror-selfie-auto-download">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pose-upload-card">
+                            <h3>1. Unggah Produk Pajangan</h3>
+                            <p class="help-text">Unggah gambar produk yang akan dipegang.</p>
+                             <div class="file-input-wrapper" style="width: 100%; max-width: 250px;">
+                                <label class="file-drop-zone" for="pose-mirror-selfie-product-input" role="button">
+                                    <span id="pose-mirror-selfie-product-label">Pilih Gambar Produk</span>
+                                    <img id="pose-mirror-selfie-product-preview" src="#" class="image-preview-hidden"/>
+                                </label>
+                                <input id="pose-mirror-selfie-product-input" type="file" accept="image/*" style="display: none;"/>
+                                <button id="pose-mirror-selfie-clear-product-button" class="icon-button clear-upload-button" style="display: none;" aria-label="Clear product image"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>
+                            </div>
+                        </div>
+
+                        <div class="pose-upload-card">
+                             <span class="pose-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 0 24 24" width="32px" fill="currentColor"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                            </span>
+                            <h3>2. Unggah Referensi Model</h3>
+                            <p class="help-text">Gunakan foto potret atau seluruh badan.</p>
+                            <div class="file-input-wrapper" style="width: 100%; max-width: 250px;">
+                                <label class="file-drop-zone" for="pose-mirror-selfie-model-input" role="button">
+                                    <span id="pose-mirror-selfie-model-label">Pilih Gambar Model</span>
+                                    <img id="pose-mirror-selfie-model-preview" src="#" class="image-preview-hidden"/>
+                                </label>
+                                <input id="pose-mirror-selfie-model-input" type="file" accept="image/*" style="display: none;"/>
+                                <button id="pose-mirror-selfie-clear-model-button" class="icon-button clear-upload-button" style="display: none;" aria-label="Clear reference image"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Pilih Kategori Pose</label>
+                            <div class="aspect-ratio-group">
+                                <button class="pose-mirror-selfie-category-button active" data-category="standing">Berdiri</button>
+                                <button class="pose-mirror-selfie-category-button" data-category="sitting">Duduk</button>
+                                <button class="pose-mirror-selfie-category-button" data-category="dynamic">Dinamis</button>
+                                <button class="pose-mirror-selfie-category-button" data-category="closeup">Jarak Dekat</button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Pilih Latar Belakang</label>
+                            <div class="aspect-ratio-group">
+                                <button class="pose-mirror-selfie-background-button active" data-background="studio">Studio</button>
+                                <button class="pose-mirror-selfie-background-button" data-background="bedroom">Kamar Tidur</button>
+                                <button class="pose-mirror-selfie-background-button" data-background="elevator">Lift</button>
+                                <button class="pose-mirror-selfie-background-button" data-background="gym">Gym</button>
+                                <button class="pose-mirror-selfie-background-button" data-background="boutique">Butik</button>
+                                <button class="pose-mirror-selfie-background-button" data-background="luxury-living-room">Cermin Ruang Tamu mewah</button>
+                                <button class="pose-mirror-selfie-background-button" data-background="islamic-room">Cermin Ruangan Nuansa Islami</button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Pilih Gaya Busana Hijab</label>
+                            <div class="aspect-ratio-group">
+                                <button class="pose-mirror-selfie-style-button active" data-style="default">Default</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="casual" title="Gaya hijab kasual, seperti pashmina simpel, cocok untuk sehari-hari.">Casual</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="formal" title="Gaya hijab formal, rapi dan elegan, cocok untuk pesta atau acara resmi.">Formal</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="sporty" title="Gaya hijab sporty, praktis dan nyaman untuk berolahraga.">Sporty</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="chic" title="Gaya hijab chic dan modis, mengikuti tren fashion terkini.">Chic</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="syari" title="Gaya hijab syar'i, panjang menutupi dada, terlihat anggun.">Syari</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="turban" title="Gaya hijab turban modern yang dililit modis di kepala.">Turban</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="pastel" title="Gaya hijab dengan warna-warna pastel yang lembut, terlihat manis.">Pastel</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="earth-tone" title="Gaya hijab dengan warna bumi seperti coklat, krem, hijau, terlihat natural.">Earth Tone</button>
+                                <button class="pose-mirror-selfie-style-button" data-style="monochrome" title="Gaya hijab monokrom (hitam, putih, abu-abu) untuk tampilan klasik.">Monochrome</button>
+                            </div>
+                        </div>
+
+                        <div class="button-group" style="justify-content: center;">
+                            <button id="pose-mirror-selfie-generate-button" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0z" fill="none"/><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                                <span>Hasilkan 4 Pose</span>
+                            </button>
+                        </div>
+
+                         <div id="pose-mirror-selfie-status-container" class="status-container">
+                            <div class="status-content">
+                                 <p id="pose-mirror-selfie-status">Unggah referensi pakaian dan model untuk memulai.</p>
+                                 <div id="pose-mirror-selfie-progress-wrapper" class="progress-wrapper" style="display: none;">
+                                     <div class="progress-bar">
+                                         <div id="pose-mirror-selfie-progress-bar" class="progress-bar-fill"></div>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+
+                        <div id="pose-mirror-selfie-output-container" style="display: none;">
+                           <div id="pose-mirror-selfie-output-grid" class="productshot-results-grid" style="grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));">
+                           </div>
+                           <div id="pose-mirror-selfie-album-actions" class="button-group" style="display: none; margin-top: 1rem;">
+                                <button id="pose-mirror-selfie-download-all-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                                    <span>Download All</span>
+                                </button>
+                                <button id="pose-mirror-selfie-start-over-button" class="secondary-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+                                    <span>Start Over</span>
+                                </button>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- This card is now hidden, but the element is kept for the 'onSendToVideo' functionality to work without errors. -->
+            <div id="video-generator-card" style="display: none;"></div>
+
+        </main>
+    </div>
+
+    <!-- Image Preview Modal -->
+    <div id="image-preview-modal" class="modal-overlay">
+        <div class="modal-content-preview">
+            <button id="modal-preview-close-button" class="icon-button modal-close-btn" aria-label="Close image preview">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+            </button>
+            <img id="modal-preview-image" src="#" alt="Enlarged preview of generated or uploaded image" />
+        </div>
+    </div>
+    
+    <!-- API Key Modal -->
+    <div id="api-key-modal" class="modal-overlay">
+        <div class="api-key-modal-content">
+            <button id="api-key-modal-close-button" class="icon-button modal-close-btn" aria-label="Close API Key modal" style="top: 10px; right: 10px;">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+            </button>
+            <h3>PAID API KEY</h3>
+            <p class="modal-subtitle">Add your own API Key to use premium models and bypass daily quotas.</p>
+
+            <div class="input-group">
+                <label for="premium-api-key-input">Your Google AI Studio API Key</label>
+                <input id="premium-api-key-input" type="password" placeholder="Enter your key here">
+            </div>
+
+            <p id="api-key-modal-status"></p>
+
+            <div class="button-group">
+                <button id="save-api-key-button">Save Key</button>
+                <button id="clear-api-key-button" class="secondary-button">Clear Key</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+</body>
+</html>
